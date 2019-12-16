@@ -67,7 +67,7 @@ int ADXL345::setRange(ADXL345::RANGE range)
 	return 0;
 }
 
-int ADXL345::setResulotion(ADXL345::RESOLUTION resulution)
+int ADXL345::setResolution(ADXL345::RESOLUTION resulution)
 {
 	this->resolution = resulution;
 	if(updateRegisters() == 1) {

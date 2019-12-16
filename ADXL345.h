@@ -83,7 +83,7 @@ class ADXL345:protected I2C
 
 		ADXL345 (unsigned short bus, unsigned short address=0x53 );
 		virtual int setRange(ADXL345::RANGE range);
-		virtual int setResulotion(ADXL345::RESOLUTION resolution);
+		virtual int setResolution(ADXL345::RESOLUTION resolution);
 		virtual int setBWrate(ADXL345::BAUD baud);
 		virtual int updateRegisters();
 		virtual ~ADXL345 ( );
