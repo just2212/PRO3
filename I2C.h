@@ -40,7 +40,6 @@ class I2C
 		I2C(unsigned int bus, unsigned int address);
 		virtual ~I2C ( );
 		virtual unsigned char * readRegisters(unsigned int length, unsigned int FromAddress);
-		virtual int write(unsigned char val);
 		virtual int writeRegister(unsigned int registerAddress, unsigned char value);
 		virtual int open();
 		virtual void close();

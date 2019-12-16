@@ -90,7 +90,7 @@ class ADXL345:protected I2C
 		virtual int readSensorState();
 		virtual ADXL345::RANGE getRange() { return this->range; };
 		virtual ADXL345::RESOLUTION getResolution() {return this->resolution; };
-		virtual ADXL345::RESOLUTION getBaud() {return this->baud; };
+		virtual ADXL345::BAUD getBaud() {return this->baud; };
 		virtual short getaccelX() { return this->accelX; };
 		virtual short getaccelY() { return this->accelY; };
 		virtual short getaccelZ() { return this->accelZ; };
