@@ -55,27 +55,42 @@ using namespace std;
 class ADXL345:protected I2C
 {
 	public:
-		/// An enumeration to define the gravity range of the sensor
+		// An enumeration to define the gravity range of the sensor
 		enum RANGE {
-			PLUSMINUS_2_G 		= 0,//!< plus/minus 2g
-			PLUSMINUS_4_G 		= 1,//!< plus/minus 4g
-			PLUSMINUS_8_G 		= 2,//!< plus/minus 8g
-			PLUSMINUS_16_G 		= 3 //!< plus/minus 16g
+			PLUSMINUS_2_G 		= 0,// plus/minus 2g
+			PLUSMINUS_4_G 		= 1,// plus/minus 4g
+			PLUSMINUS_8_G 		= 2,// plus/minus 8g
+			PLUSMINUS_16_G 		= 3 // plus/minus 16g
 		};
-		/// The resolution of the sensor. High is only available in +/- 16g range.
+		// The resolution of the sensor. High is only available in +/- 16g range.
 		enum RESOLUTION {
 			NORMAL = 0,//!< NORMAL 10-bit resolution
 			HIGH = 1   //!< HIGH 13-bit resolution
 		};
+		// an enumeration to define Baud bandwich and output rate.
+		enum BAUD {
+			BANDWITH_3f125_Hz		= 6,	// BW 3.125 Hz Outputrate 2*BW Hz
+			BANDWITH_6f25_Hz		= 7,	// BW 6.25 Hz Outputrate 2*BW Hz
+			BANDWITH_12f5_Hz		= 8,	// BW 12.5 Hz Outputrate 2*BW Hz
+			BANDWITH_25_Hz			= 9,	// BW 25 Hz Outputrate 2*BW Hz
+			BANDWITH_50_Hz			= 10,	// BW 50 Hz Outputrate 2*BW Hz
+			BANDWITH_100_Hz			= 11,	// BW 100 Hz Outputrate 2*BW Hz
+			BANDWITH_200_Hz			= 12,	// BW 200 Hz Outputrate 2*BW Hz
+			BANDWITH_400_Hz			= 13,	// BW 400 Hz Outputrate 2*BW Hz
+			BANDWITH_800_Hz			= 14,	// BW 800 Hz Outputrate 2*BW Hz
+			BANDWITH_1600_Hz		= 15	// BW 1600 Hz Outputrate 2*BW Hz
+		};
 
 		ADXL345 (unsigned short bus, unsigned short address=0x53 );
-		virtual ADXL345::RANGE getRange() { return this->range; };
-		virtual ADXL345::RESOLUTION getResolution() {return this->resolution;};
-		virtual void setRange(ADXL345::RANGE range);
-		virtual void setResulotion(ADXL345::RESOLUTION resolution);
+		virtual int setRange(ADXL345::RANGE range);
+		virtual int setResulotion(ADXL345::RESOLUTION resolution);
+		virtual int setBWrate(ADXL345::BAUD baud);
 		virtual int updateRegisters();
 		virtual ~ADXL345 ( );
 		virtual int readSensorState();
+		virtual ADXL345::RANGE getRange() { return this->range; };
+		virtual ADXL345::RESOLUTION getResolution() {return this->resolution; };
+		virtual ADXL345::RESOLUTION getBaud() {return this->baud; };
 		virtual short getaccelX() { return this->accelX; };
 		virtual short getaccelY() { return this->accelY; };
 		virtual short getaccelZ() { return this->accelZ; };
@@ -87,7 +102,7 @@ class ADXL345:protected I2C
 		unsigned char * registers;
 		ADXL345::RANGE range;
 		ADXL345::RESOLUTION resolution;
-
+		ADXL345::BAUD baud;
 
 
 

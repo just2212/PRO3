@@ -3,16 +3,16 @@
 // Source file	: I2C.cpp
 // Author				: Nikolaj
 // Date 				: 3 Dec 2019
-// Version 			:
+// Version 			: 1
 //
-// Description :
+// Description  : a I2C basedriver for BBB
 //
 ////////////////////////////////////////////////////////////
 #include "I2C.h"
 
 using namespace std;
 
-#define HEX(x) setw(2) << setfill('0') << hex << (int)(x)
+//#define HEX(x) setw(2) << setfill('0') << hex << (int)(x)
 
 
 /**
@@ -37,7 +37,6 @@ I2C::~I2C ( )
 	if(file!=-1)
 		this->close();
 }
-
 /**
  * Connects to an I2C device
  * @return 1 on failure to connec to bus or address, 0 on success.
@@ -63,25 +62,8 @@ int I2C::open()
 	  return 1;
   }
 	return 0;
-
 }
 
-/**
- * Write a single value to the I2C device.
- *  Also used to set up the device to read from a particular address.
- * @param value the value to write to the device
- * @return 1 on failure to write, 0 on success.
- */
-int I2C::write(unsigned char val)
-{
-  unsigned char buffer[1];
-  buffer[0]=val;
-  if (::write(this->file, buffer, 1)!=1){
-     perror("I2C: Failed to write to the device\n");
-     return 1;
-  }
-  return 0;
-}
 
 int I2C::writeRegister(unsigned int registerAddress, unsigned char value){
    unsigned char buffer[2];
@@ -95,8 +77,8 @@ int I2C::writeRegister(unsigned int registerAddress, unsigned char value){
 }
 
 /**
- * Method to read a number of registers from a single device. This is much more efficient than
- * reading the registers individually. The from address is the starting address to read from, which
+ * Method to read a number of registers from a single device.
+ * The from address is the starting address to read from, which
  * defaults to 0x00.
  * @param number the number of registers to read from the device
  * @param fromAddress the starting address to read from
@@ -104,7 +86,12 @@ int I2C::writeRegister(unsigned int registerAddress, unsigned char value){
  */
 unsigned char * I2C::readRegisters(unsigned int length, unsigned int FromAddress)
 {
-	this->write(FromAddress);
+	unsigned buffer[1];
+	buffer[0] = FromAddress;
+	if(::write(this->file,buffer,2) != 2) {
+		perror("I2C: Failed write to the device\n");
+		return NULL;
+	}
 	unsigned char * data = new unsigned char[length];
 	if(::read(this->file, data, length)!=(int)length){
 	       perror("IC2: Failed to read in the full buffer.\n");

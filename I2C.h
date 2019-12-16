@@ -3,9 +3,9 @@
 // Source file	: I2C.h
 // Author				: Nikolaj
 // Date 				: 3 Dec 2019
-// Version 			:
+// Version 			: 1.1
 //
-// Description :
+// Description  : a I2C basedriver for BBB
 //
 ////////////////////////////////////////////////////////////
 #ifndef I2C_H_

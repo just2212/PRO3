@@ -22,7 +22,8 @@ I2C(I2CBus, I2CAddress)
 	this->registers = NULL;
 	this->range = ADXL345::PLUSMINUS_16_G;
 	this->resolution = ADXL345::HIGH;
-	this->writeRegister(POWER_CTL, 0x08);
+	this->baud = ADXL345::BANDWITH_1600_Hz;
+	this->writeRegister(BW_RATE, 0x0f);
 	this->updateRegisters();
 
 }
@@ -56,18 +57,36 @@ int ADXL345::updateRegisters(){
    return this->writeRegister(DATA_FORMAT, data_format);
 }
 
-void ADXL345::setRange(ADXL345::RANGE range)
+int ADXL345::setRange(ADXL345::RANGE range)
 {
 	this->range = range;
-	updateRegisters();
+	if(updateRegisters() == 1) {
+		perror("ADXL345: Failed write Range to register\n");
+		return 1;
+	}
+	return 0;
 }
 
-void ADXL345::setResulotion(ADXL345::RESOLUTION resulution)
+int ADXL345::setResulotion(ADXL345::RESOLUTION resulution)
 {
 	this->resolution = resulution;
-	updateRegisters();
+	if(updateRegisters() == 1) {
+		perror("ADXL345: Failed write resulotion to register\n");
+		return 1;
+	}
+	return 0;
 }
 
+int ADXL345::setBWrate(ADXL345::BAUD baud)
+{
+	this->baud = baud;
+	if(this->writeRegister(BW_RATE,baud) == 1) {
+		perror("ADXL345: Failed write Baud rate to register\n");
+		return 1;
+	}
+	return 0;
+
+}
 /**
  * Read the sensor state. This method checks that the device is being correctly
  * read by using the device ID of the ADXL345 sensor. It will read in the accelerometer registers
@@ -87,5 +106,3 @@ int ADXL345::readSensorState(){
 	this->range = (ADXL345::RANGE) ((*(registers+DATA_FORMAT))&0x03);
 	return 0;
 }
-
-
