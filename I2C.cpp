@@ -88,7 +88,7 @@ unsigned char * I2C::readRegisters(unsigned int length, unsigned int FromAddress
 {
 	unsigned buffer[1];
 	buffer[0] = FromAddress;
-	if(::write(this->file,buffer,2) != 2) {
+	if(::write(this->file,buffer,1) != 1) {
 		perror("I2C: Failed write to the device\n");
 		return NULL;
 	}
