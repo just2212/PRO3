@@ -81,7 +81,7 @@ class ADXL345:protected I2C
 			BANDWITH_1600_Hz		= 15	// BW 1600 Hz Outputrate 2*BW Hz
 		};
 
-		ADXL345 (unsigned short bus, unsigned short address=0x53 );
+		ADXL345 (unsigned int bus, unsigned int address=0x53 );
 		virtual int setRange(ADXL345::RANGE range);
 		virtual int setResolution(ADXL345::RESOLUTION resolution);
 		virtual int setBWrate(ADXL345::BAUD baud);
@@ -98,7 +98,7 @@ class ADXL345:protected I2C
 	private:
 		short combineRegisters(unsigned char msb, unsigned char lsb);
 		short accelX,accelY,accelZ;
-		unsigned short I2CAddress,I2CBus;
+		unsigned int I2CAddress,I2CBus;
 		unsigned char * registers;
 		ADXL345::RANGE range;
 		ADXL345::RESOLUTION resolution;

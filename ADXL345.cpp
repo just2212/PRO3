@@ -11,11 +11,11 @@
 #include "ADXL345.h"
 
 
-ADXL345::ADXL345 (unsigned short bus, unsigned short address ):
+ADXL345::ADXL345 (unsigned int bus, unsigned int address ):
 I2C(I2CBus, I2CAddress)
 {
-	this->I2CAddress = I2CAddress;
-	this->I2CBus = I2CBus;
+	this->I2CAddress = address;
+	this->I2CBus = bus;
 	this->accelX = 0;
 	this->accelY = 0;
 	this->accelZ = 0;
